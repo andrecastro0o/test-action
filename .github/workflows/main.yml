@@ -31,7 +31,9 @@ jobs:
         run: | 
           curl https://mirrors.supportex.net/apache/jena/binaries/apache-jena-3.17.0.tar.gz --output jena.tar.gz
           tar xfvz jena.tar.gz
+          
       - name: query nmrCV.owl for relevant terms for NFDI4Chem
+        run: |
           ./apache-jena-3.17.0/bin/arq --query=relevant_4Chem.rq --data=nmrCV.owl --results=CSV > NFDI4Chem_relevant_terms.csv  
     
       - uses: actions/upload-artifact@v2
