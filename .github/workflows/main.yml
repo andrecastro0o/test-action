@@ -30,7 +30,7 @@ jobs:
       - name: install apache Jena
         run: | 
           curl https://mirrors.supportex.net/apache/jena/binaries/apache-jena-3.17.0.tar.gz --output jena.tar.gz
-          ls .
           tar xfvz jena.tar.gz
-          ls apache-jena-3.17.0/bin/arq
-          ./apache-jena-3.17.0/bin/arq
+          ./apache-jena-3.17.0/bin/arq --query=relevant_4Chem.rq --data=nmrCV.owl --output=CSV  
+          
+# TODO: arq  --query=queries/relevant_4Chem.rq
