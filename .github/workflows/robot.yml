@@ -19,14 +19,12 @@ jobs:
           curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > robot 
           chmod +x robot
           ls -l .
-          java -version
           ./robot --help
-          
-      # - name: query nmrCV.owl for relevant terms for NFDI4Chem
-      #   run: |
-      #     ./apache-jena-3.17.0/bin/arq --query=relevant_4Chem.rq --data=nmrCV.owl --results=CSV > NFDI4Chem_relevant_terms.csv  
-    
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     name: relevant_term_csv
-      #     path: NFDI4Chem_relevant_terms.csv
+      - name: convert owl to ttl
+        run: |
+          ./robot convert --input nmrCV.owl --output nmrCV.ttl
+      
+      - uses: actions/upload-artifact@v2
+        with:
+          name: nmrCV_ttl
+          path: nmrCV.ttl
