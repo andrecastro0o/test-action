@@ -17,7 +17,8 @@ jobs:
         run: | 
           wget --quiet https://github.com/ontodev/robot/releases/download/v1.8.1/robot.jar
           chmod +x robot.jar
-          ./robot.jar
+          ls -l .
+          ./robot.jar --help
           
       # - name: query nmrCV.owl for relevant terms for NFDI4Chem
       #   run: |
