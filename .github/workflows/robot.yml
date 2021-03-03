@@ -1,0 +1,29 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Robot Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: install ROBOT
+        run: | 
+          wget https://github.com/ontodev/robot/releases/download/v1.8.1/robot.jar
+          chmod +x robot.jar
+          ./robot.jar
+          
+      # - name: query nmrCV.owl for relevant terms for NFDI4Chem
+      #   run: |
+      #     ./apache-jena-3.17.0/bin/arq --query=relevant_4Chem.rq --data=nmrCV.owl --results=CSV > NFDI4Chem_relevant_terms.csv  
+    
+      # - uses: actions/upload-artifact@v2
+      #   with:
+      #     name: relevant_term_csv
+      #     path: NFDI4Chem_relevant_terms.csv
