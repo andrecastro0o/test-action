@@ -17,10 +17,11 @@ jobs:
         run: |
           sudo apt install default-jre 
           wget --quiet https://github.com/ontodev/robot/releases/download/v1.8.1/robot.jar
-          chmod +x robot.jar
+          curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > robot 
+          chmod +x robot
           ls -l .
           java -version
-          ./robot.jar --help
+          ./robot --help
           
       # - name: query nmrCV.owl for relevant terms for NFDI4Chem
       #   run: |
