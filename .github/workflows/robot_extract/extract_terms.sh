@@ -3,7 +3,6 @@
 while IFS=" " read -r prefix uri 
 do
     # echo "prefix:" $prefix "uri:" $uri $prefix.owl
-    wget --quiet $uri -c # download the used ontologies olw files
 
     #### extract terms from ontologies
     if test -f "terms_$prefix.txt"; then

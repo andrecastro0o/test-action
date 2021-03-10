@@ -21,7 +21,13 @@ jobs:
           sudo mv ./robot.jar /usr/local/bin
           robot --help
 
-      - name:  
+      - name: download sourceontologies
+          pwd
+          cd .github/workflows/robot_extract
+          bash download_src_ontologies.sh\
+          ls .
+
+      - name: extract terms
         run: |
           cd .github/workflows/robot_extract
           bash extract_terms.sh
