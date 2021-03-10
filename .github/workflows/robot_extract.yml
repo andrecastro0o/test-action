@@ -42,8 +42,8 @@ jobs:
       - name: extract terms from ontologies into single .ttl files
         run: |
           cd .github/workflows/robot_extract
-          while IFS=" " read -r prefix uri; do if test -f "terms_$prefix.txt"; robot extract --method BOT --input $prefix.owl --term-file terms_$prefix.txt --intermediates none --annotate-with-source true --output extracted_$prefix.owl;fi; done < "ontologies.txt"
-          while IFS=" " read -r prefix uri; do if test -f "terms_$prefix.txt"; robot convert --input extracted_$prefix.owl --output extracted_$prefix.ttl; fi; done < "ontologies.txt"
+          while IFS=" " read -r prefix uri; do if test -f "terms_$prefix.txt"; then robot extract --method BOT --input $prefix.owl --term-file terms_$prefix.txt --intermediates none --annotate-with-source true --output extracted_$prefix.owl; fi; done < "ontologies.txt"
+          while IFS=" " read -r prefix uri; do if test -f "terms_$prefix.txt"; then robot convert --input extracted_$prefix.owl --output extracted_$prefix.ttl; fi; done < "ontologies.txt"
 
       - name: merge extracted terms into  merged.ttl 
         run: |
