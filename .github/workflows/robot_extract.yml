@@ -21,6 +21,8 @@ jobs:
           sudo mv ./robot.jar /usr/local/bin
           robot --help
 
+      # todo: create ontotologies_files.txt from ontologies.txt
+
       - uses: actions/cache@v2
         id: cache
         with:
@@ -36,14 +38,28 @@ jobs:
           # cat ontologies.txt
           ls .
           echo "---- download ontology owl files ----"
-          while IFS=" " read -r prefix uri; do echo "prefix:" $prefix "uri:" $uri $prefix.owl; wget --quiet $uri -c; done < "ontologies.txt"
+          while IFS=" " read -r prefix uri method inter; \
+          do echo "prefix:" $prefix "uri:" $uri $prefix.owl; \
+          wget --quiet $uri -c; \
+          done < "ontologies.txt"
           ls .
 
       - name: extract terms from ontologies into single .ttl files
         run: |
           cd .github/workflows/robot_extract
-          while IFS=" " read -r prefix uri; do if test -f "terms_$prefix.txt"; then robot extract --method BOT --input $prefix.owl --term-file terms_$prefix.txt --intermediates none --annotate-with-source true --output extracted_$prefix.owl; fi; done < "ontologies.txt"
-          while IFS=" " read -r prefix uri; do if test -f "terms_$prefix.txt"; then robot convert --input extracted_$prefix.owl --output extracted_$prefix.ttl; fi; done < "ontologies.txt"
+          echo "---- extract terms from ontology owl files ----"          
+          while IFS=" " read -r prefix uri method inter; \
+          do if test -f "terms_$prefix.txt"; \
+          then robot extract --method BOT --input $prefix.owl --term-file terms_$prefix.txt --intermediates none \
+          --annotate-with-source true --output extracted_$prefix.owl; \
+          fi; \
+          done < "ontologies.txt"
+          echo "---- convert extracted terms files to ttl ----"
+          while IFS=" " read -r prefix uri method inter; \
+          do if test -f "terms_$prefix.txt"; \
+          then robot convert --input extracted_$prefix.owl --output extracted_$prefix.ttl; \
+          fi; \
+          done < "ontologies.txt"
 
       - name: merge extracted terms into  merged.ttl 
         run: |
@@ -55,18 +71,3 @@ jobs:
         with:
           name: extracted_terms
           path: .github/workflows/robot_extract/*.ttl
-
-# artifacts: 
-# *  extracted_*.ttl
-# * merged.ttl
-
-# shall the scripts and be inside the .github/workflows dir 
-
-      # - name: convert owl to ttl
-      #   run: |
-      #     robot convert --input nmrCV.owl --output nmrCV.ttl
-      
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     name: nmrCV_ttl
-      #     path: nmrCV.ttl
