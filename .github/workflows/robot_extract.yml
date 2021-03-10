@@ -21,12 +21,18 @@ jobs:
           sudo mv ./robot.jar /usr/local/bin
           robot --help
 
-      - name: download sourceontologies
+      - name: download source ontologies
         run: |
           pwd
           cd .github/workflows/robot_extract
           bash download_src_ontologies.sh
           ls .
+          
+      - name: find uo owl
+        run: | 
+          cd ../../../
+          ls -a
+          find -name "*.owl"
 
       - name: extract terms
         run: |
