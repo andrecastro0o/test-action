@@ -21,9 +21,14 @@ jobs:
           sudo mv ./robot.jar /usr/local/bin
           robot --help
 
-      - name: ls 
+      - name:  
         run: |
-          ls -Ra
+          cd .github/workflows/robot_extract
+          bash extract_terms.sh
+          ls . 
+          head merged.ttl 
+
+# shall the scripts and be inside the .github/workflows dir 
 
       # - name: convert owl to ttl
       #   run: |
