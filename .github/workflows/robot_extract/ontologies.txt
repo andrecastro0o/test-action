@@ -1,1 +1,2 @@
+iao http://purl.obolibrary.org/obo/iao.owl
 uo http://purl.obolibrary.org/obo/uo.owl
