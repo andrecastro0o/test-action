@@ -28,11 +28,9 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/*.owl') }}
 
       - name: download source ontologies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          pwd
           cd .github/workflows/robot_extract
-          while IFS=" " read -r prefix uri; do echo "prefix:" $prefix "uri:" $uri $prefix.owl; wget --quiet $uri -c; done < "ontologies.txt"
+          while IFS=" " read -r prefix uri; do echo "prefix:" $prefix "uri:" $uri $prefix.owl; wget $uri -c; done < "ontologies.txt"
           ls 
 
       # - name: find uo owl
