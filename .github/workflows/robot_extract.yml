@@ -23,7 +23,7 @@ jobs:
 
       - name: download source ontologies
         run: |
-          cd .github/workflows/robot_extract'
+          cd .github/workflows/robot_extract
           cat ontologies.txt
           ls .
           while IFS=" " read -r prefix uri; do echo "prefix:" $prefix "uri:" $uri $prefix.owl; wget --quiet $uri -c; done < "ontologies.txt"
