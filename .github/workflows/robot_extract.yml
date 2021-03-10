@@ -1,0 +1,31 @@
+name: Robot - extract ontology terms
+
+on:
+  workflow_dispatch:
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: install ROBOT
+        run: |
+          wget --quiet https://github.com/ontodev/robot/releases/download/v1.8.1/robot.jar
+          curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > robot 
+          chmod +x robot
+          ls -l .
+          ./robot --help
+      - name: test ROBOT install
+        run: which robot
+
+      # - name: convert owl to ttl
+      #   run: |
+      #     ./robot convert --input nmrCV.owl --output nmrCV.ttl
+      
+      # - uses: actions/upload-artifact@v2
+      #   with:
+      #     name: nmrCV_ttl
+      #     path: nmrCV.ttl
