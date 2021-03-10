@@ -25,9 +25,10 @@ jobs:
         run: |
           pwd
           cd .github/workflows/robot_extract
-          bash download_src_ontologies.sh
+          chmod +x download_src_ontologies.sh
+          ./download_src_ontologies.sh
           ls .
-          
+
       - name: find uo owl
         run: | 
           cd ../../../
