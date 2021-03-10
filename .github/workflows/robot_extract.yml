@@ -18,8 +18,14 @@ jobs:
           chmod +x robot
           ls -l .
           ./robot --help
+
+      - name: path
+        run: |
+          echo $PATH 
+    
       - name: test ROBOT install
-        run: which robot
+        run: | 
+          which robot  # can robot be installed globally
 
       # - name: convert owl to ttl
       #   run: |
