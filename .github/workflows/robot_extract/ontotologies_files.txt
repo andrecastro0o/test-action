@@ -2,3 +2,7 @@ bfo.owl
 ro.owl
 iao.owl
 uo.owl
+obi.owl
+apollo_sv.owl
+chebi.owl
+chmo.owl
