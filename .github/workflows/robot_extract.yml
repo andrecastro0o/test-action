@@ -45,10 +45,10 @@ jobs:
           ls .
           while IFS=" " read -r prefix uri; do if test -f "terms_$prefix.txt"; then echo "extracting terms from $prefix terms_$prefix.txt"; robot extract --method BOT --input $prefix.owl --term-file terms_$prefix.txt --intermediates none --annotate-with-source true --output extracted_$prefix.owl; robot convert --input extracted_$prefix.owl --output extracted_$prefix.ttl;fi; done < "ontologies.txt"
 
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     name: extracted_terms
-      #     path: .github/workflows/robot_extract/*.ttl
+      - uses: actions/upload-artifact@v2
+        with:
+          name: extracted_terms
+          path: .github/workflows/robot_extract/*.ttl
 
 # artifacts: 
 # *  extracted_*.ttl
