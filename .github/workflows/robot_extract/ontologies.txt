@@ -1,2 +1,4 @@
+bfo http://purl.obolibrary.org/obo/bfo.owl
+ro http://purl.obolibrary.org/obo/ro.owl
 iao http://purl.obolibrary.org/obo/iao.owl
 uo http://purl.obolibrary.org/obo/uo.owl
