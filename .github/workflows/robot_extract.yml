@@ -17,21 +17,17 @@ jobs:
           curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > robot 
           chmod +x robot
           ls -l .
-          sudo cp ./robot /usr/local/bin
-          sudo cp ./robot.jar /usr/local/bin
+          sudo mv ./robot /usr/local/bin
+          sudo mv ./robot.jar /usr/local/bin
           robot --help
 
-      - name: path
+      - name: ls 
         run: |
-          echo $PATH 
-    
-      - name: test ROBOT install
-        run: | 
-          which robot  # can robot be installed globally
+          ls -Ra
 
       # - name: convert owl to ttl
       #   run: |
-      #     ./robot convert --input nmrCV.owl --output nmrCV.ttl
+      #     robot convert --input nmrCV.owl --output nmrCV.ttl
       
       # - uses: actions/upload-artifact@v2
       #   with:
