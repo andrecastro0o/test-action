@@ -25,15 +25,13 @@ jobs:
         run: |
           pwd
           cd .github/workflows/robot_extract
-          chmod +x download_src_ontologies.sh
-          ./download_src_ontologies.sh
+          while IFS=" " read -r prefix uri; do echo "prefix:" $prefix "uri:" $uri $prefix.owl; wget --quiet $uri -c; done < "ontologies.txt"
           ls 
-          cat ./location
 
-      - name: find uo owl
-        run: | 
-          cd /
-          find -name "*.owl"
+      # - name: find uo owl
+      #   run: | 
+      #     cd /
+      #     find -name "*.owl"
 
       # - name: extract terms
       #   run: |
