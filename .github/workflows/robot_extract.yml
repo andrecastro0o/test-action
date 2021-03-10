@@ -26,7 +26,7 @@ jobs:
           cd .github/workflows/robot_extract
           cat ontologies.txt
           ls .
-          while IFS=" " read -r prefix uri; do echo "prefix:" $prefix "uri:" $uri $prefix.owl; wget --quiet $uri -c; done < "ontologies.txt"
+          while IFS=" " read -r prefix uri; do echo "prefix:" $prefix "uri:" $uri $prefix.owl; wget $uri -c; done < "ontologies.txt"
           ls .
 
       - uses: actions/cache@v2
@@ -34,6 +34,7 @@ jobs:
         with:
           path: .github/workflows/robot_extract
           key: ${{ runner.os }}-${{ hashFiles('**/*.owl') }}
+        
 
       # - name: find uo owl
       #   run: | 
