@@ -36,14 +36,13 @@ jobs:
         run: |
           cd .github/workflows/robot_extract
           # cat ontologies.txt
-          ls .
+          # ls .
           echo "---- download ontology owl files ----"
-          while IFS=" " read -r prefix uri method inter; \
-          do echo $uri; \
-          echo $inter; \ 
+          while read -r prefix uri method inter; \
+          do echo $prefix $uri $method $inter;  \ 
           # wget --quiet $uri -c; \
           done < "ontologies.txt"
-          ls .
+          # ls .
 # "prefix:" $prefix "uri:" $uri $prefix.owl  "method:" $method  "inter:"
 
 
