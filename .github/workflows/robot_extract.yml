@@ -17,7 +17,7 @@ jobs:
           curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > robot 
           chmod +x robot
           ls -l .
-          mv ./robot /usr/local/bin
+          sudo mv ./robot /usr/local/bin
           robot --help
 
       - name: path
