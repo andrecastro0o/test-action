@@ -39,8 +39,9 @@ jobs:
           ls .
           echo "---- download ontology owl files ----"
           while IFS=" " read -r prefix uri method inter; \
-          do echo  $inter; \ 
-          wget --quiet $uri -c; \
+          do echo $uri; \
+          echo $inter; \ 
+          # wget --quiet $uri -c; \
           done < "ontologies.txt"
           ls .
 # "prefix:" $prefix "uri:" $uri $prefix.owl  "method:" $method  "inter:"
