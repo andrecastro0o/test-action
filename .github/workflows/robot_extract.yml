@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  convert:
+  extract:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,7 +17,8 @@ jobs:
           curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > robot 
           chmod +x robot
           ls -l .
-          ./robot --help
+          mv ./robot /usr/local/bin
+          robot --help
 
       - name: path
         run: |
