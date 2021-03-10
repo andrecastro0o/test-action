@@ -21,7 +21,14 @@ jobs:
       #     sudo mv ./robot.jar /usr/local/bin
       #     robot --help
 
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: .github/workflows/robot_extract
+          key: ${{ runner.os }}-${{ hashFiles('**/*.owl') }}
+
       - name: download source ontologies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           pwd
           cd .github/workflows/robot_extract
