@@ -28,6 +28,7 @@ jobs:
           chmod +x download_src_ontologies.sh
           ./download_src_ontologies.sh
           ls .
+          cat ./location
 
       - name: find uo owl
         run: | 
