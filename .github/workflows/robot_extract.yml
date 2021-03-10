@@ -27,7 +27,7 @@ jobs:
           cd .github/workflows/robot_extract
           chmod +x download_src_ontologies.sh
           ./download_src_ontologies.sh
-          ls ./*.owl
+          ls 
           cat ./location
 
       - name: find uo owl
@@ -35,12 +35,14 @@ jobs:
           cd /
           find -name "*.owl"
 
-      - name: extract terms
-        run: |
-          cd .github/workflows/robot_extract
-          bash extract_terms.sh
-          ls . 
-          head merged.ttl 
+      # - name: extract terms
+      #   run: |
+      #     cd .github/workflows/robot_extract
+      #     bash extract_terms.sh
+      #     ls . 
+      #     head merged.ttl 
+
+
 
 # shall the scripts and be inside the .github/workflows dir 
 
