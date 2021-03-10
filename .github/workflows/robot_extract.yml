@@ -27,7 +27,7 @@ jobs:
         id: cache
         with:
           path: .github/workflows/robot_extract
-          key: ${{ runner.os }}-ontologies-${{ hashFiles('**/ontotologies_files.txt') }}
+          key: ${{ runner.os }}-ontologies-${{ hashFiles('ontotologies_files.txt') }}
           restore-keys: |
             ${{ runner.os }}-ontologies-
        # NOTE: in order to cache the ontology files their filenames need to be saved in ontotologies_files.txt  
