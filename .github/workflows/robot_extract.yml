@@ -11,15 +11,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: install ROBOT
-        run: |
-          wget --quiet https://github.com/ontodev/robot/releases/download/v1.8.1/robot.jar
-          curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > robot 
-          chmod +x robot
-          ls -l .
-          sudo mv ./robot /usr/local/bin
-          sudo mv ./robot.jar /usr/local/bin
-          robot --help
+      # - name: install ROBOT
+      #   run: |
+      #     wget --quiet https://github.com/ontodev/robot/releases/download/v1.8.1/robot.jar
+      #     curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > robot 
+      #     chmod +x robot
+      #     ls -l .
+      #     sudo mv ./robot /usr/local/bin
+      #     sudo mv ./robot.jar /usr/local/bin
+      #     robot --help
 
       - name: download source ontologies
         run: |
@@ -27,13 +27,12 @@ jobs:
           cd .github/workflows/robot_extract
           chmod +x download_src_ontologies.sh
           ./download_src_ontologies.sh
-          ls .
+          ls ./*.owl
           cat ./location
 
       - name: find uo owl
         run: | 
-          cd ../../../
-          ls -a
+          cd /
           find -name "*.owl"
 
       - name: extract terms
