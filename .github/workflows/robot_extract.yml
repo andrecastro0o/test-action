@@ -39,11 +39,17 @@ jobs:
           while IFS=" " read -r prefix uri; do echo "prefix:" $prefix "uri:" $uri $prefix.owl; wget --quiet $uri -c; done < "ontologies.txt"
           ls .
 
-      - name: extract terms terms from ontologies
+      - name: extract terms from ontologies into single .ttl files
         run: |
           cd .github/workflows/robot_extract
-          ls .
-          while IFS=" " read -r prefix uri; do if test -f "terms_$prefix.txt"; then echo "extracting terms from $prefix terms_$prefix.txt"; robot extract --method BOT --input $prefix.owl --term-file terms_$prefix.txt --intermediates none --annotate-with-source true --output extracted_$prefix.owl; robot convert --input extracted_$prefix.owl --output extracted_$prefix.ttl;fi; done < "ontologies.txt"
+          while IFS=" " read -r prefix uri; do if test -f "terms_$prefix.txt"; robot extract --method BOT --input $prefix.owl --term-file terms_$prefix.txt --intermediates none --annotate-with-source true --output extracted_$prefix.owl;fi; done < "ontologies.txt"
+          while IFS=" " read -r prefix uri; do if test -f "terms_$prefix.txt"; robot convert --input extracted_$prefix.owl --output extracted_$prefix.ttl; fi; done < "ontologies.txt"
+
+      - name: merge extracted terms into  merged.ttl 
+        run: |
+          cd .github/workflows/robot_extract     
+          robot merge --inputs "extracted_*.owl" --output merged.owl
+          robot convert --input merged.owl --output merged.ttl 
 
       - uses: actions/upload-artifact@v2
         with:
