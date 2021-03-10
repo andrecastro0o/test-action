@@ -21,6 +21,14 @@ jobs:
       #     sudo mv ./robot.jar /usr/local/bin
       #     robot --help
 
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: .github/workflows/robot_extract
+          key: ${{ runner.os }}-ontologies-${{ hashFiles('**/ontotologies_files.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-ontologies-
+        
       - name: download source ontologies
         run: |
           cd .github/workflows/robot_extract
@@ -31,12 +39,7 @@ jobs:
           while IFS=" " read -r prefix uri; do echo "prefix:" $prefix "uri:" $uri $prefix.owl; wget $uri -c; done < "ontologies.txt"
           ls .
 
-      - uses: actions/cache@v2
-        id: cache
-        with:
-          path: .github/workflows/robot_extract
-          key: ${{ runner.os }}-${{ hashFiles('**/*.owl') }}
-        
+
 
       # - name: find uo owl
       #   run: | 
