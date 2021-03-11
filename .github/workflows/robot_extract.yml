@@ -1,5 +1,20 @@
 name: Robot - extract ontology terms
 
+# description: extracts the terms from ontologies listed in `ontologies.txt` using [ROBOT](http://robot.obolibrary.org/) extract
+# according to list of terms written in the ontology terms files (terms_*.txt)
+# using the `ROBOT extract` action with:
+# * `--method` (TOP, BOT, STAR) 
+# * `--intermediate` (all, minimal, none)
+# 
+# **ontologies.txt file strcture**:
+# `prefix uri --method_value --intermediate_value`
+# Example:
+# ```
+# iao http://purl.obolibrary.org/obo/iao.owl BOT none
+# uo http://purl.obolibrary.org/obo/uo.owl TOP minimal
+# ```
+# working dir: .github/workflows/robot_extract/
+
 on:
   workflow_dispatch:
 
@@ -8,7 +23,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       - name: install ROBOT
@@ -21,16 +35,16 @@ jobs:
           sudo mv ./robot.jar /usr/local/bin
           robot --help
 
-      # todo: create ontotologies_files.txt from ontologies.txt
-
-      - uses: actions/cache@v2
-        id: cache
-        with:
-          path: .github/workflows/robot_extract
-          key: ${{ runner.os }}-ontologies-${{ hashFiles('ontotologies_files.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-ontologies-
-       # NOTE: in order to cache the ontology files their filenames need to be saved in ontotologies_files.txt  
+    # issue: cache is caching ontologies.txt - shouldn't!! Hence this step and next (download source ontologies) are disabled
+    # # todo: create ontotologies_files.txt from ontologies.txt
+    #   - uses: actions/cache@v2
+    #     id: cache
+    #     with:
+    #       path: .github/workflows/robot_extract
+    #       key: ${{ runner.os }}-ontologies-${{ hashFiles('**/ontotologies_files.txt') }}
+    #       restore-keys: |
+    #         ${{ runner.os }}-ontologies-
+    #    # NOTE: in order to cache the ontology files their filenames need to be saved in ontotologies_files.txt  
         
       - name: download source ontologies
         run: |
@@ -42,35 +56,34 @@ jobs:
           do echo $prefix $uri $method $inter; \
           wget --quiet $uri -c; \
           done < "ontologies.txt"
-          # ls .
-# "prefix:" $prefix "uri:" $uri $prefix.owl  "method:" $method  "inter:"
+          ls .
+
+      - name: extract terms from ontologies into single .ttl files
+        run: |
+          cd .github/workflows/robot_extract
+          echo "---- extract terms from ontology owl files ----"          
+          while IFS=" " read -r prefix uri method inter; \
+          do if test -f "terms_$prefix.txt"; \
+          then robot extract --method $method --input $prefix.owl --term-file terms_$prefix.txt --intermediates $inter \
+          --annotate-with-source true --output extracted_$prefix.owl; \
+          fi; \
+          done < "ontologies.txt"
+          echo "---- convert extracted terms files to ttl ----"
+          while IFS=" " read -r prefix uri method inter; \
+          do if test -f "terms_$prefix.txt"; \
+          then robot convert --input extracted_$prefix.owl --output extracted_$prefix.ttl; \
+          fi; \
+          done < "ontologies.txt"
+      # values for vars $prefix $uri $method $inter are set in ontologies.txt
 
 
-      # # values for vars $prefix $uri $method $inter are set in ontologies.txt
-      # - name: extract terms from ontologies into single .ttl files
-      #   run: |
-      #     cd .github/workflows/robot_extract
-      #     echo "---- extract terms from ontology owl files ----"          
-      #     while IFS=" " read -r prefix uri method inter; \
-      #     do if test -f "terms_$prefix.txt"; \
-      #     then robot extract --method $method --input $prefix.owl --term-file terms_$prefix.txt --intermediates $inter \
-      #     --annotate-with-source true --output extracted_$prefix.owl; \
-      #     fi; \
-      #     done < "ontologies.txt"
-      #     echo "---- convert extracted terms files to ttl ----"
-      #     while IFS=" " read -r prefix uri method inter; \
-      #     do if test -f "terms_$prefix.txt"; \
-      #     then robot convert --input extracted_$prefix.owl --output extracted_$prefix.ttl; \
-      #     fi; \
-      #     done < "ontologies.txt"
+      - name: merge extracted terms into  merged.ttl 
+        run: |
+          cd .github/workflows/robot_extract     
+          robot merge --inputs "extracted_*.owl" --output merged.owl
+          robot convert --input merged.owl --output merged.ttl 
 
-      # - name: merge extracted terms into  merged.ttl 
-      #   run: |
-      #     cd .github/workflows/robot_extract     
-      #     robot merge --inputs "extracted_*.owl" --output merged.owl
-      #     robot convert --input merged.owl --output merged.ttl 
-
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     name: extracted_terms
-      #     path: .github/workflows/robot_extract/*.ttl
+      - uses: actions/upload-artifact@v2
+        with:
+          name: extracted_terms
+          path: .github/workflows/robot_extract/*.ttl
