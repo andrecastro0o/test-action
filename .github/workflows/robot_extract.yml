@@ -52,8 +52,7 @@ jobs:
           echo "---- ontologies.txt content ----"          
           cat ontologies.txt
           echo "---- download ontology owl files ----"
-          while read -r prefix uri method inter; do echo $prefix $uri $method $inter; done < "ontologies.txt"
-          # wget --quiet $uri -c; \
+          while read -r prefix uri method inter; do echo $uri; wget --quiet $uri -c; done < "ontologies.txt"
           ls .
 
       # - name: extract terms from ontologies into single .ttl files
