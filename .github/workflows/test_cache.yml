@@ -24,8 +24,9 @@ jobs:
       - name: download source ontologies
         run: |
           cd .github/workflows/test_cache
+          mkdir ontologies/
           echo "---- ontologies.txt content ----"          
           cat ontologies.txt
           echo "---- download ontology owl files ----"
-          while read -r prefix uri method inter; do echo $uri; wget --quiet $uri -c; done < "ontologies.txt"
+          while read -r prefix uri method inter; do echo $uri; wget --quiet $uri -c -P ontologies/; done < "ontologies.txt"
           ls .
