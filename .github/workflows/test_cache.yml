@@ -20,13 +20,30 @@ jobs:
     #       restore-keys: |
     #         ${{ runner.os }}-ontologies-
     #    # NOTE: in order to cache the ontology files their filenames need to be saved in ontotologies_files.txt  
-        
-      - name: download source ontologies
+  
+      - name: mkdir ontologies
         run: |
           cd .github/workflows/test_cache
           mkdir ontologies/
+          echo "---- ontologies/ dir ----"          
+          ls ./ontologies
+    
+      - name: Cache ontologies
+        id: cache-ontology-files
+        uses: actions/cache@v2
+        with:
+          path: ontologies
+          key: ontologies-${{ hashFiles('ontologies.txt') }} # has ontologies.txt # if changes occurs cache is rebuilt
+
+      - name: download source ontologies
+        if: steps.cache.outputs.cache-hit != 'true'      
+        run: |
+          cd .github/workflows/test_cache
+          echo "---- ontologies/ dir ----"          
+          ls ./ontologies
           echo "---- ontologies.txt content ----"          
           cat ontologies.txt
           echo "---- download ontology owl files ----"
           while read -r prefix uri method inter; do echo $uri; wget --quiet $uri -c -P ontologies/; done < "ontologies.txt"
-          ls .
+          echo "---- ontologies/ dir ----"          
+          ls ./ontologies
