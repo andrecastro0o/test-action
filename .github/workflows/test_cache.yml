@@ -39,11 +39,14 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'      
         run: |
           cd .github/workflows/test_cache
-          echo "---- ontologies/ dir ----"          
+          echo "---- ls ontologies/ dir ----"          
           ls ./ontologies
-          echo "---- ontologies.txt content ----"          
+          echo "---- cat ontologies.txt content ----"          
           cat ontologies.txt
           echo "---- download ontology owl files ----"
           while read -r prefix uri method inter; do echo $uri; wget --quiet $uri -c -P ontologies/; done < "ontologies.txt"
-          echo "---- ontologies/ dir ----"          
+          echo "---- ls ontologies/ dir ----"          
+
+      - name: list ontologies
+        run: |
           ls ./ontologies
