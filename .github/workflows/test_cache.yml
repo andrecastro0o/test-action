@@ -40,8 +40,8 @@ jobs:
         id: cache-ontology-files
         uses: actions/cache@v2
         with:
-          path: ontologies
-          key: ontologies-${{ hashFiles('ontologies.txt') }} 
+          path: .github/workflows/test_cache/ontologies
+          key: ontologies-${{ hashFiles('.github/workflows/test_cache/ontologies.txt') }} 
           # has ontologies.txt # if changes occurs cache is rebuilt
 
       - name: download source ontologies
