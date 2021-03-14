@@ -41,7 +41,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ontologies
-          key: ontologies-${{ hashFiles('ontologies.txt') }} # has ontologies.txt # if changes occurs cache is rebuilt
+          key: ontologies-${{ hashFiles('ontologies.txt') }} 
+          # has ontologies.txt # if changes occurs cache is rebuilt
 
       - name: download source ontologies
         if: steps.cache.outputs.cache-hit != 'true'      
@@ -53,9 +54,9 @@ jobs:
           cat ontologies.txt
           echo "---- download ontology owl files ----"
           while read -r prefix uri method inter; do echo $uri; wget --quiet $uri -c -P ontologies/; done < "ontologies.txt"
-          echo "---- ls ontologies/ dir ----"          
 
       - name: list ontologies
         run: |
           cd .github/workflows/test_cache
+          echo "---- ls ontologies/ dir ----"          
           ls ./ontologies
