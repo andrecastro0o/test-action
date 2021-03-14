@@ -31,9 +31,11 @@ jobs:
         run: |
           cd .github/workflows/test_cache
           mkdir ontologies/
-          echo "---- ontologies/ dir ----"          
+          echo "---- ls ontologies/ dir ----"          
           ls ./ontologies
-    
+          echo "---- pwd ----"                    
+          pwd
+
       - name: Cache ontologies
         id: cache-ontology-files
         uses: actions/cache@v2
