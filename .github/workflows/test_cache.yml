@@ -55,4 +55,5 @@ jobs:
 
       - name: list ontologies
         run: |
+          cd .github/workflows/test_cache
           ls ./ontologies
