@@ -21,6 +21,12 @@ jobs:
     #         ${{ runner.os }}-ontologies-
     #    # NOTE: in order to cache the ontology files their filenames need to be saved in ontotologies_files.txt  
   
+
+      - name: pwd
+        run: |
+          pwd
+          ls
+
       - name: mkdir ontologies
         run: |
           cd .github/workflows/test_cache
